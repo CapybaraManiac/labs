@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.topic3.android.reddit.R
+import com.topic3.android.reddit.components.BackgroundText
 import com.topic3.android.reddit.models.SubredditModel
 
 val subreddits = listOf(
@@ -213,7 +214,14 @@ fun Community(text: String, modifier: Modifier = Modifier, onCommunityClicked: (
 @Composable
 fun SubredditsScreen() {
     fun Communities(modifier: Modifier = Modifier) {
-        //TODO add your code here
+        mainCommunities.forEach{
+            Community(text = stringResource(it))
+        }
+        Spacer(modifier = modifier.height(4.dp))
+        BackgroundText(stringResource(R.string.communities))
+        communities.forEach{
+            Community(text = stringResource(it))
+        }
     }
 
     @Preview

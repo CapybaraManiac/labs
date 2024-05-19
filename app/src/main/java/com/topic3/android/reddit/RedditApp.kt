@@ -1,6 +1,7 @@
 package com.topic3.android.reddit
 
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -22,18 +23,20 @@ import com.topic3.android.reddit.screens.HomeScreen
 import com.topic3.android.reddit.screens.MyProfileScreen
 import com.topic3.android.reddit.screens.SubredditsScreen
 import com.topic3.android.reddit.theme.RedditTheme
+import com.topic3.android.reddit.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun RedditApp() {
+fun RedditApp(viewModel: MainViewModel) {
   RedditTheme {
-    AppContent()
+    AppContent(viewModel)
   }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-private fun AppContent() {
+private fun AppContent(viewModel: MainViewModel) {
   val scaffoldState: ScaffoldState = rememberScaffoldState()
   val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
@@ -53,7 +56,8 @@ private fun AppContent() {
       content = {
         MainScreenContainer(
           modifier = Modifier.padding(bottom = 56.dp),
-          screenState = screenState
+          screenState = screenState,
+          viewModel = viewModel
         )
       }
     )
@@ -103,7 +107,11 @@ fun TopAppBar(scaffoldState: ScaffoldState, coroutineScope: CoroutineScope) {
 }
 
 @Composable
-private fun MainScreenContainer(modifier: Modifier = Modifier, screenState: MutableState<Screen>) {
+private fun MainScreenContainer(
+  modifier: Modifier = Modifier,
+  screenState: MutableState<Screen>,
+  viewModel: MainViewModel
+) {
   Surface(
     modifier = modifier,
     color = MaterialTheme.colors.background
@@ -114,8 +122,8 @@ private fun MainScreenContainer(modifier: Modifier = Modifier, screenState: Muta
       Screen.NewPost -> AddScreen()
       Screen.MyProfile -> MyProfileScreen()
     }
+    }
   }
-}
 
 @Composable
 private fun BottomNavigationComponent(

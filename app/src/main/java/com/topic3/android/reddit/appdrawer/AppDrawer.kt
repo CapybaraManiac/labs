@@ -1,8 +1,6 @@
 package com.topic3.android.reddit.appdrawer
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -10,31 +8,24 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.Dimension
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.topic3.android.reddit.R
 
 import com.topic3.android.reddit.theme.RedditThemeSettings
-
 /**
  * Представляет корневую композицию для панели приложений, используемой на экранах.
  */
@@ -49,13 +40,10 @@ fun AppDrawer(
       .background(color = MaterialTheme.colors.surface)
   ) {
     AppDrawerHeader()
-
     AppDrawerBody(closeDrawerAction)
-
     AppDrawerFooter(modifier)
   }
 }
-
 /**
  * Представляет заголовок drawer приложения со значком и названием приложения.
  */
@@ -81,7 +69,6 @@ private fun AppDrawerHeader() {
       text = stringResource(R.string.default_username),
       color = MaterialTheme.colors.primaryVariant
     )
-    ProfileInfo()
   }
   Divider(
     color = MaterialTheme.colors.onSurface.copy(alpha = .2f),
@@ -90,48 +77,10 @@ private fun AppDrawerHeader() {
     )
   )
 }
-
 @Composable
-fun ProfileInfo(modifier: Modifier = Modifier) {
-  ConstraintLayout (
-    modifier = modifier
-      .fillMaxWidth()
-      .padding(top = 16.dp)
-  ) {
-    val (karmaItem, divider, ageItem) = createRefs()
-    val colors = MaterialTheme.colors
-
-    ProfileInfoItem(
-      Icons.Filled.Star,
-      R.string.default_karma_amount,
-      R.string.karma,
-      modifier = modifier.constrainAs(karmaItem) {
-        centerVerticallyTo(parent)
-        start.linkTo(parent.start)
-      }
-    )
-    Divider(
-      modifier = modifier
-        .width(1.dp)
-        .constrainAs(divider) {
-          centerVerticallyTo(karmaItem)
-          centerHorizontallyTo(parent)
-          height = Dimension.fillToConstraints
-        },
-      color = colors.onSurface.copy(alpha = .2f)
-    )
-    ProfileInfoItem(
-      iconAsset = Icons.Filled.ShoppingCart,
-      amountResourceId = R.string.default_reddit_age_amount,
-      textResourceId = R.string.reddit_age,
-      modifier = modifier.constrainAs(ageItem){
-        start.linkTo(divider.end)
-        centerVerticallyTo(parent)
-      }
-    )
-  }
+fun ProfileInfo() {
+  //TODO add your code here
 }
-
 @Composable
 private fun ProfileInfoItem(
   iconAsset: ImageVector,
@@ -162,7 +111,7 @@ private fun ProfileInfoItem(
       fontSize = 10.sp,
       modifier = itemModifier
         .padding(start = 8.dp)
-        .constrainAs(amountRef) {
+        .constrainAs(amountRef){
           top.linkTo(iconRef.top)
           start.linkTo(iconRef.end)
           bottom.linkTo(titleRef.top)
@@ -174,7 +123,7 @@ private fun ProfileInfoItem(
       fontSize = 10.sp,
       modifier = itemModifier
         .padding(start = 8.dp)
-        .constrainAs(titleRef) {
+        .constrainAs(titleRef){
           top.linkTo(amountRef.bottom)
           start.linkTo(iconRef.end)
           bottom.linkTo(iconRef.bottom)
@@ -191,20 +140,7 @@ private fun ProfileInfoItem(
 @Composable
 private fun AppDrawerBody(closeDrawerAction: () -> Unit) {
   //TODO add your code here
-  Column{
-    ScreenNavigationButton(
-      icon = Icons.Filled.AccountBox,
-      label = stringResource(R.string.my_profile),
-      onClickAction = {closeDrawerAction()}
-    )
-    ScreenNavigationButton(
-      icon = Icons.Filled.Home,
-      label = stringResource(R.string.saved),
-      onClickAction = {closeDrawerAction()}
-    )
-  }
 }
-
 /**
  * Представляет компонент в панели приложений, который пользователь может использовать для смены экрана.
  */
@@ -216,11 +152,9 @@ private fun ScreenNavigationButton(
   modifier: Modifier = Modifier
 ) {
   val colors = MaterialTheme.colors
-
   val surfaceModifier = modifier
     .padding(start = 8.dp, top = 8.dp, end = 8.dp)
     .fillMaxWidth()
-
   Surface(
     modifier = surfaceModifier,
     color = colors.surface,
@@ -251,64 +185,16 @@ private fun ScreenNavigationButton(
     }
   }
 }
-
 /**
  * Представляет компонент настройки в панели приложений.
  */
 @Composable
 private fun AppDrawerFooter(modifier: Modifier = Modifier) {
-  ConstraintLayout (
-    modifier = modifier
-      .fillMaxSize()
-      .padding(
-        start = 16.dp,
-        bottom = 16.dp,
-        end = 16.dp
-      )
-  ){
-    val colors = MaterialTheme.colors
-    val (settingsImage, settingText, darkModeButton) = createRefs()
-    Icon(modifier = modifier.constrainAs(settingsImage)
-    {
-      start.linkTo(parent.start)
-      bottom.linkTo(parent.bottom)
-    },
-      imageVector = Icons.Default.Settings,
-      contentDescription = stringResource(
-        id = R.string.settings
-      ),
-      tint = colors.primaryVariant
-    )
-    Text(
-      fontSize = 10.sp,
-      text = stringResource(R.string.settings),
-      style = MaterialTheme.typography.body2,
-      color = colors.primaryVariant,
-      modifier = modifier
-        .padding(start = 16.dp)
-        .constrainAs(settingText) {
-          start.linkTo(settingsImage.end)
-          centerVerticallyTo(settingsImage)
-        }
-    )
-    Icon(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_moon),
-      contentDescription = stringResource(id = R.string.change_theme),
-      modifier = modifier
-        .clickable (onClick = { changeTheme()  })
-        .constrainAs(darkModeButton){
-          end.linkTo(parent.end)
-          bottom.linkTo(settingsImage.bottom)
-        },
-      tint = colors.primaryVariant
-    )
-  }
+  //TODO add your code here
 }
-
 private fun changeTheme() {
   RedditThemeSettings.isInDarkTheme.value = RedditThemeSettings.isInDarkTheme.value.not()
 }
-
 @Preview
 @Composable
 private fun ProfileInfoItemPreview() {

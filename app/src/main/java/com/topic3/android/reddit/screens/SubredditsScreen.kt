@@ -11,6 +11,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,7 +74,15 @@ fun SubredditsScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun Subreddit(subredditModel: SubredditModel, modifier: Modifier = Modifier) {
-    //TODO add your code here
+    Card(
+        backgroundColor = MaterialTheme.colors.surface,
+        shape = RoundedCornerShape(4.dp),
+        modifier = modifier
+            .size(120.dp)
+            .padding(start = 2.dp,)
+    ) {
+        SubredditBody(subredditModel)
+    }
 }
 
 @Composable
